@@ -1,85 +1,113 @@
 <template>
-  <div class="app-container">
-    <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="Activity name">
-        <el-input v-model="form.name" />
-      </el-form-item>
-      <el-form-item label="Activity zone">
-        <el-select v-model="form.region" placeholder="please select your zone">
-          <el-option label="Zone one" value="shanghai" />
-          <el-option label="Zone two" value="beijing" />
+  <div>
+    <div class="container">
+      <div class="select-container">
+        <el-select v-model="value" placeholder="翻译语言选择" style="margin-left: 30px; box-shadow:1px 1px 10px rgba(0, 0, 0, 0.2);">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
-      </el-form-item>
-      <el-form-item label="Activity time">
-        <el-col :span="11">
-          <el-date-picker v-model="form.date1" type="date" placeholder="Pick a date" style="width: 100%;" />
-        </el-col>
-        <el-col :span="2" class="line">-</el-col>
-        <el-col :span="11">
-          <el-time-picker v-model="form.date2" type="fixed-time" placeholder="Pick a time" style="width: 100%;" />
-        </el-col>
-      </el-form-item>
-      <el-form-item label="Instant delivery">
-        <el-switch v-model="form.delivery" />
-      </el-form-item>
-      <el-form-item label="Activity type">
-        <el-checkbox-group v-model="form.type">
-          <el-checkbox label="Online activities" name="type" />
-          <el-checkbox label="Promotion activities" name="type" />
-          <el-checkbox label="Offline activities" name="type" />
-          <el-checkbox label="Simple brand exposure" name="type" />
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="Resources">
-        <el-radio-group v-model="form.resource">
-          <el-radio label="Sponsor" />
-          <el-radio label="Venue" />
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="Activity form">
-        <el-input v-model="form.desc" type="textarea" />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">Create</el-button>
-        <el-button @click="onCancel">Cancel</el-button>
-      </el-form-item>
-    </el-form>
+      </div>
+      <div class="select-container">
+      </div>
+    </div>
+    <div class="container">
+      <div class="app-container">
+        <el-input
+          v-model="question"
+          size=""
+          type="textarea"
+          :autosize="{ minRows: 15, maxRows: 20 }"
+          placeholder="请输入待翻译内容"
+          style="box-shadow:1px 1px 10px rgba(0, 0, 0, 0.3);"
+        />
+      </div>
+      <div class="app-container">
+        <el-input
+          v-model="answer"
+          size=""
+          type="textarea"
+          disabled="true"
+          :autosize="{ minRows: 15, maxRows: 20 }"
+          placeholder="翻译结果"
+          style="box-shadow:1px 1px 10px rgba(0, 0, 0, 0.3);"
+        />
+      </div>
+    </div>
   </div>
 </template>
-
 <script>
+import { translate } from '@/api/translate'
 export default {
   data() {
     return {
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+      question: '',
+      answer: '',
+      options: [{
+        value: 'en',
+        label: '英语'
+      }, {
+        value: 'es',
+        label: '西班牙语'
+      }, {
+        value: 'ja',
+        label: '日语'
+      }, {
+        value: 'ko',
+        label: '韩语'
+      }, {
+        value: 'ru',
+        label: '俄语'
+      }],
+      value: ''
+    }
+  },
+  watch: {
+    question(newValue) {
+      if (newValue === '') {
+        this.answer = ''
+      } else {
+        this.getAnswer()
       }
     }
   },
   methods: {
-    onSubmit() {
-      this.$message('submit!')
-    },
-    onCancel() {
-      this.$message({
-        message: 'cancel!',
-        type: 'warning'
-      })
+    async getAnswer() {
+      const requestData = {
+        q: this.question,
+        from: 'zh-CHS',
+        to: this.value
+      }
+      try {
+        const response = await translate(requestData)
+        const str = response.data
+        this.answer = str.replace(/^\["|"\]$/g, '')
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 }
+
 </script>
 
 <style scoped>
-.line{
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.app-container {
+  flex: 1;
+  margin: 10px;
   text-align: center;
+}
+
+.line {
+  text-align: center;
+}
+.select-container{
+  flex: 1;
+  margin-top: 10px;
+  height: 20px;
 }
 </style>
 
