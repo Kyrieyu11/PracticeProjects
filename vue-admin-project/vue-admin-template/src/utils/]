@@ -4,7 +4,7 @@ import store from '@/store'
 import { getToken } from '@/utils/auth'
 // create an axios instance
 const service = axios.create({
-  baseURL: 'http://49.233.35.140:8080', // url = base url + request url用来配置上线后的地址的
+  baseURL: '49.233.35.140:8080', // url = base url + request url用来配置上线后的地址的
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 150000 // request timeout
 })
