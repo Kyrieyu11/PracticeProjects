@@ -7,7 +7,7 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="imageSrc" class="user-avatar">
+          <img :src="gender === 'Male'?imageSrc:imageSrcFemale" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -30,10 +30,12 @@ import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import imageSrc from '@/assets/avatar/Aavtar.jpg'
+import imageSrcFemale from '@/assets/avatar/avatarFemale.jpg'
 export default {
   data() {
     return {
-      imageSrc
+      imageSrc,
+      imageSrcFemale
     }
   },
   components: {
@@ -42,7 +44,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'sidebar'
+      'sidebar',
+      'gender'
     ])
   },
   methods: {

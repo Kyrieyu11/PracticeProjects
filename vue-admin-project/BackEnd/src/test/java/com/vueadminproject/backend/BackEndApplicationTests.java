@@ -5,8 +5,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.vueadminproject.backend.dao.DeptProfileMapper;
+import com.vueadminproject.backend.dao.UserAndDeptMapper;
 import com.vueadminproject.backend.dao.UserProfileMapper;
 import com.vueadminproject.backend.pojo.DeptProfile;
+import com.vueadminproject.backend.pojo.UserAndDeptProfile;
 import com.vueadminproject.backend.pojo.UserProfile;
 import com.vueadminproject.backend.utils.GenerateToken;
 import org.junit.jupiter.api.Test;
@@ -21,7 +23,7 @@ import java.util.function.Consumer;
 @SpringBootTest
 class BackEndApplicationTests {
     @Autowired
-    private UserProfileMapper userProfileMapper;
+    private UserAndDeptMapper userAndDeptMapper;
     @Autowired
     private  RedisTemplate redisTemplate;
 //    @Test
@@ -61,4 +63,9 @@ class BackEndApplicationTests {
 //        System.out.println("helloworld");
 //    }
 
+//    @Test
+//    void testUserAndProfile(){
+//        List<UserAndDeptProfile> userAndDept = userAndDeptMapper.getUserAndDept();
+//        userAndDept.forEach(userAndDeptProfile -> System.out.println(userAndDeptProfile.toString()));
+//    }
 }

@@ -1,6 +1,7 @@
 package com.vueadminproject.backend.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.vueadminproject.backend.dao.DeptProfileMapper;
 import com.vueadminproject.backend.pojo.DeptProfile;
@@ -14,6 +15,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -67,5 +69,19 @@ public class UserProfileServiceImpl extends ServiceImpl<UserProfileMapper, UserP
     public UserProfile logout(String token) {
         UserProfile result = (UserProfile) redisTemplate.opsForValue().getAndDelete(token);
         return result;
+    }
+
+    @Override
+    public List<UserProfile> getusers() {
+        List<UserProfile> userProfiles = userProfileMapper.selectList(null);
+        return userProfiles;
+    }
+
+    @Override
+    public List<UserProfile> getusers(int deptId) {
+        QueryWrapper<UserProfile> userProfileQueryWrapper = new QueryWrapper<>();
+        userProfileQueryWrapper.eq("dept_id",deptId);
+        List<UserProfile> userProfiles = userProfileMapper.selectList(userProfileQueryWrapper);
+        return userProfiles;
     }
 }

@@ -15,7 +15,8 @@ export default {
   components: { IndexTodo },
   data() {
     return {
-      src: require('@/assets/avatar/Aavtar.jpg'),
+      srcMale: require('@/assets/avatar/Aavtar.jpg'),
+      srcFemale: require('@/assets/avatar/avatarFemale.jpg'),
       isHovering: false
     }
   }
@@ -58,7 +59,7 @@ export default {
       <div class="div2">
         <el-row style="flex: 1;">
           <el-col :span="24" style="height:150px; margin-top: 15px">
-            <el-image :src="src" :fit="fit" />
+            <el-image :src="gender ==='Male'?srcMale:srcFemale" :fit="fit" />
           </el-col>
         </el-row>
         <el-row style="flex: 1;">

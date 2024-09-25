@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vueadminproject.backend.dao.UserAndDeptMapper">
+<select id="getUserAndDept" resultType="com.vueadminproject.backend.pojo.UserAndDeptProfile">
+    select  user_profile.user_id,user_profile.name,user_profile.gender,user_profile.position,user_profile.dept_id,dept_profile.dept_name,dept_profile.dept_leader
+    from user_profile,dept_profile
+    where user_profile.dept_id = dept_profile.dept_id
+</select>
+</mapper>
